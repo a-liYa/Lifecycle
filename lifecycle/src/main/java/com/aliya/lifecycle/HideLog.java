@@ -22,7 +22,7 @@ final class HideLog {
      */
     private static boolean debuggable = true;
 
-    private static final String TAG = "UiMode";
+    private static final String TAG = "Lifecycle";
 
     private HideLog() {
     }

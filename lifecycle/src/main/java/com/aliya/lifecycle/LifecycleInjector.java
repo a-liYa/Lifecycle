@@ -3,6 +3,7 @@ package com.aliya.lifecycle;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -45,11 +46,15 @@ public class LifecycleInjector {
         application.registerActivityLifecycleCallbacks(get().mActivityLifecycleCallbacks);
     }
 
-    private static void handleActivity(Activity activity) {
+    private static void registerFragmentLifecycle(Activity activity) {
         if (activity instanceof FragmentActivity) {
             ((FragmentActivity) activity).getSupportFragmentManager()
                     .registerFragmentLifecycleCallbacks(
                             get().mFragmentLifecycleCallbacks, true);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            activity.getFragmentManager()
+                    .registerFragmentLifecycleCallbacks(null, true);
         }
     }
 
@@ -57,7 +62,7 @@ public class LifecycleInjector {
 
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-            handleActivity(activity);
+            registerFragmentLifecycle(activity);
             Log.e("TAG", "onActivityCreated: " + activity.hashCode());
         }
 
