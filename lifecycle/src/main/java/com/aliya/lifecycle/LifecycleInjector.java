@@ -5,11 +5,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.util.SparseArray;
 
 /**
  * 生命周期注册器
@@ -24,9 +22,29 @@ public class LifecycleInjector {
     private ActivityLifecycleCallbacksImpl mActivityLifecycleCallbacks;
     private FragmentLifecycleCallbacksImpl mFragmentLifecycleCallbacks;
 
+    private SparseArray<SparseArray<ActivityLifecycleCallbacks>> mActivityArray;
+
     private LifecycleInjector() {
         mActivityLifecycleCallbacks = new ActivityLifecycleCallbacksImpl();
         mFragmentLifecycleCallbacks = new FragmentLifecycleCallbacksImpl();
+        mActivityArray = new SparseArray();
+    }
+
+    public void addActivityLifecycleCallbacks(Activity activity,
+                                              ActivityLifecycleCallbacks callbacks) {
+        SparseArray<ActivityLifecycleCallbacks> keyArray = mActivityArray.get(activity.hashCode());
+        if (keyArray == null) {
+            mActivityArray.put(activity.hashCode(), keyArray = new SparseArray<>());
+        }
+        keyArray.put(callbacks.hashCode(), callbacks);
+    }
+
+    public void removeActivityLifecycleCallbacks(Activity activity,
+                                                 ActivityLifecycleCallbacks callbacks) {
+        SparseArray<ActivityLifecycleCallbacks> keyArray = mActivityArray.get(activity.hashCode());
+        if (keyArray != null) {
+            keyArray.remove(callbacks.hashCode());
+        }
     }
 
     public static LifecycleInjector get() {
@@ -63,83 +81,76 @@ public class LifecycleInjector {
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
             registerFragmentLifecycle(activity);
-            Log.e("TAG", "onActivityCreated: " + activity.hashCode());
+            onActivityLifecycle(activity, savedInstanceState, LifecycleCallbacksType.ON_CREATED);
         }
 
         @Override
         public void onActivityStarted(Activity activity) {
-
+            onActivityLifecycle(activity, null, LifecycleCallbacksType.ON_STARTED);
         }
 
         @Override
         public void onActivityResumed(Activity activity) {
-
+            onActivityLifecycle(activity, null, LifecycleCallbacksType.ON_RESUMED);
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
-
+            onActivityLifecycle(activity, null, LifecycleCallbacksType.ON_PAUSED);
         }
 
         @Override
         public void onActivityStopped(Activity activity) {
-
+            onActivityLifecycle(activity, null, LifecycleCallbacksType.ON_STOPPED);
         }
 
         @Override
         public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
+            onActivityLifecycle(activity, outState, LifecycleCallbacksType.ON_SAVE_INSTANCE_STATE);
         }
 
         @Override
         public void onActivityDestroyed(Activity activity) {
-            Log.e("TAG", "onActivityDestroyed: " + activity.hashCode());
+            onActivityLifecycle(activity, null, LifecycleCallbacksType.ON_DESTROYED);
+            get().mActivityArray.remove(activity.hashCode());
         }
 
     }
 
-    /**
-     * 注意：Fragment的生命周期并不一定成对出现；当调用{@link FragmentTransaction#detach(Fragment)},
-     * {@link Fragment#onPause()}之后的生命周期不会调用。
-     */
-    static class FragmentLifecycleCallbacksImpl extends FragmentManager.FragmentLifecycleCallbacks {
-
-        @Override
-        public void onFragmentCreated(FragmentManager fm, Fragment f, Bundle savedInstanceState) {
-            super.onFragmentCreated(fm, f, savedInstanceState);
-            Log.e("TAG", "onFragmentCreated: " + f.hashCode());
-        }
-
-        @Override
-        public void onFragmentResumed(FragmentManager fm, Fragment f) {
-            super.onFragmentResumed(fm, f);
-            Log.e("TAG", "onFragmentResumed: " + f.hashCode());
-        }
-
-        @Override
-        public void onFragmentPaused(FragmentManager fm, Fragment f) {
-            super.onFragmentPaused(fm, f);
-            Log.e("TAG", "onFragmentPaused: " + f.hashCode());
-        }
-
-        @Override
-        public void onFragmentDestroyed(FragmentManager fm, Fragment f) {
-            super.onFragmentDestroyed(fm, f);
-            Log.e("TAG", "onFragmentDestroyed: " + f.hashCode());
-        }
-
-        @Override
-        public void onFragmentAttached(FragmentManager fm, Fragment f, Context context) {
-            super.onFragmentAttached(fm, f, context);
-            Log.e("TAG", "onFragmentAttached: " + f.hashCode());
-        }
-
-        @Override
-        public void onFragmentDetached(FragmentManager fm, Fragment f) {
-            super.onFragmentDetached(fm, f);
-            Log.e("TAG", "onFragmentDetached: " + f.hashCode());
+    private static void onActivityLifecycle(
+            Activity activity, Bundle bundle, @LifecycleCallbacksType int type) {
+        SparseArray<ActivityLifecycleCallbacks> keyArray = get().mActivityArray.get(activity
+                .hashCode());
+        if (keyArray != null) {
+            for (int i = 0; i < keyArray.size(); i++) {
+                ActivityLifecycleCallbacks callbacks = keyArray.get(keyArray.keyAt(i));
+                if (callbacks != null) {
+                    switch (type) {
+                        case LifecycleCallbacksType.ON_CREATED:
+                            callbacks.onActivityCreated(activity, bundle);
+                            break;
+                        case LifecycleCallbacksType.ON_STARTED:
+                            callbacks.onActivityStarted(activity);
+                            break;
+                        case LifecycleCallbacksType.ON_RESUMED:
+                            callbacks.onActivityResumed(activity);
+                            break;
+                        case LifecycleCallbacksType.ON_PAUSED:
+                            callbacks.onActivityPaused(activity);
+                            break;
+                        case LifecycleCallbacksType.ON_STOPPED:
+                            callbacks.onActivityStopped(activity);
+                            break;
+                        case LifecycleCallbacksType.ON_SAVE_INSTANCE_STATE:
+                            callbacks.onActivitySaveInstanceState(activity, bundle);
+                            break;
+                        case LifecycleCallbacksType.ON_DESTROYED:
+                            callbacks.onActivityDestroyed(activity);
+                            break;
+                    }
+                }
+            }
         }
     }
-
 
 }
