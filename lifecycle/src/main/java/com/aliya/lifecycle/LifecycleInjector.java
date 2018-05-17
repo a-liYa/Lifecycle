@@ -312,7 +312,7 @@ public class LifecycleInjector {
                 if (callbacks != null) {
                     switch (type) {
                         case LifecycleCallbacksType.ON_CREATED:
-                            callbacks.onFragmentActivityCreated(fm, f, bundle);
+                            callbacks.onFragmentCreated(fm, f, bundle);
                             break;
                         case LifecycleCallbacksType.ON_STARTED:
                             callbacks.onFragmentStarted(fm, f);
