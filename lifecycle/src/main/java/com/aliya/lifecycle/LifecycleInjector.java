@@ -3,6 +3,7 @@ package com.aliya.lifecycle;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +20,7 @@ import android.view.View;
  * @author a_liYa
  * @date 2018/5/14 20:06.
  */
-public class LifecycleInjector {
+public final class LifecycleInjector {
 
     private static volatile LifecycleInjector sInstance;
 
@@ -248,6 +249,9 @@ public class LifecycleInjector {
         public void onFragmentViewCreated(FragmentManager fm, Fragment f, View v, Bundle
                 savedInstanceState) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState);
+            if (v != null) {
+                v.setTag(R.id.lifecycle_tag_id_fragment, f);
+            }
             onFragmentLifecycle(fm, f, savedInstanceState, null, v, LifecycleCallbacksType
                     .ON_VIEW_CREATED);
         }
