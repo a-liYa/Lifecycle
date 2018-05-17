@@ -71,6 +71,7 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
     private void initView() {
         setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER);
+
     }
 
     public void setDefaultIndex(int index) {
@@ -120,11 +121,12 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
         FragmentTransaction ft = mFragmentManager.beginTransaction();
 
         TabInfo tab = mTabs.get(index);
-
+        String tag = String.valueOf(index);
+        tab.fragment = mFragmentManager.findFragmentByTag(tag);
         // 显示选中Fragment
         if (tab.fragment == null) {
             ft.add(mContainerId, tab.fragment =
-                    Fragment.instantiate(getContext(), tab.clazz.getName(), tab.args));
+                    Fragment.instantiate(getContext(), tab.clazz.getName(), tab.args), tag);
         } else {
             switch (mAttachType) {
                 case ATTACH_TYPE_SHOW:
@@ -182,6 +184,14 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
     public void setupBind(FragmentManager manager, @IdRes int containerId) {
         mFragmentManager = manager;
         mContainerId = containerId;
+        Fragment fragment = manager.findFragmentById(containerId);
+        if (fragment != null) {
+            try { // 页面恢复时保存的索引
+                mDefaultIndex = Math.max(Integer.parseInt(fragment.getTag()), 0);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void initChild() {

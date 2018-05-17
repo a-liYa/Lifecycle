@@ -24,8 +24,7 @@ public class MainActivity extends AppCompatActivity {
         mMainTab = findViewById(R.id.main_tab);
 
         initTabs();
-        initLifecycle();
-
+//        initLifecycle();
 
     }
 

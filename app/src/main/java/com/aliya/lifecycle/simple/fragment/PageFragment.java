@@ -63,6 +63,7 @@ public class PageFragment extends Fragment {
                         super.onFragmentDestroyed(fm, f);
                         Log.e("TAG", mTitle + " - onFragmentDestroyed: ");
                     }
+
                 });
     }
 
@@ -84,8 +85,4 @@ public class PageFragment extends Fragment {
         mTextView.setText(mTitle);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 }
