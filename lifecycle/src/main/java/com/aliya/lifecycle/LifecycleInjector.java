@@ -118,8 +118,8 @@ public class LifecycleInjector {
                             get().mFragmentLifecycleCallbacks, true);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            activity.getFragmentManager()
-                    .registerFragmentLifecycleCallbacks(null, true);
+//            activity.getFragmentManager()
+//                    .registerFragmentLifecycleCallbacks(null, true);
         }
     }
 

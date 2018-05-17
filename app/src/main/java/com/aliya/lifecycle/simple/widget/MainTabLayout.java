@@ -112,7 +112,9 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
      * @param index
      */
     public void setSelected(int index) {
-        if (mAdapter == null || mFragmentManager == null || mContainerId == 0) return;
+        if (mAdapter == null || mFragmentManager == null || mContainerId == 0
+                || mAdapter.getCount() <= 0)
+            return;
 
         index %= mAdapter.getCount();
         FragmentTransaction ft = mFragmentManager.beginTransaction();
