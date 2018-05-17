@@ -74,6 +74,11 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
 
     }
 
+    /**
+     * 设置默认页面索引，注意：该方法应该在{@link #setupBind(FragmentManager, int)}之前调用
+     *
+     * @param index 索引
+     */
     public void setDefaultIndex(int index) {
         if (index < 0) return;
         mDefaultIndex = index;
@@ -90,16 +95,16 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
     /**
      * 设置选中监听
      *
-     * @param mOnSelectedListener
+     * @param onSelectedListener .
      */
-    public void setOnSelectedListener(OnSelectedListener mOnSelectedListener) {
-        this.mOnSelectedListener = mOnSelectedListener;
+    public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
+        this.mOnSelectedListener = onSelectedListener;
     }
 
     /**
-     * 设置适配器
+     * 设置适配器，注意：该方法应该在{@link #setupBind(FragmentManager, int)}之后调用
      *
-     * @param adapter
+     * @param adapter .
      */
     public void setAdapter(MainTabAdapter adapter) {
         this.mAdapter = adapter;
@@ -110,7 +115,7 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
     /**
      * 选择指定的页面
      *
-     * @param index
+     * @param index .
      */
     public void setSelected(int index) {
         if (mAdapter == null || mFragmentManager == null || mContainerId == 0
@@ -176,7 +181,7 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
     }
 
     /**
-     * 初始化绑定对象
+     * 初始化绑定对象, 若是页面恢复，赋值默认选中为恢复页面
      *
      * @param manager     .
      * @param containerId fragment容器id
@@ -226,7 +231,7 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
      * 获取指定Tab
      *
      * @param index 下标
-     * @return View
+     * @return View .
      */
     public @Nullable
     View getIndexTabView(int index) {
@@ -237,7 +242,7 @@ public class MainTabLayout extends LinearLayout implements View.OnClickListener 
      * 获取指定TabFragment
      *
      * @param index 下标
-     * @return
+     * @return .
      */
     public Fragment getIndexTabFragment(int index) {
         return mTabs.get(index) != null ? mTabs.get(index).fragment : null;
