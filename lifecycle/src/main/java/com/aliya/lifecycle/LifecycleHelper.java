@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
 /**
@@ -39,7 +38,7 @@ public class LifecycleHelper {
             if (tag instanceof Fragment) {
                 return (Fragment) tag;
             }
-            if (view.getParent() instanceof ViewPager) {
+            if (view.getParent() instanceof View) {
                 view = (View) view.getParent();
             } else {
                 view = null;
