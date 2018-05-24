@@ -1,14 +1,16 @@
 apply plugin: 'com.android.library'
 
+def vCode = 1
+def vName = '0.0.1'
+
 android {
     compileSdkVersion 26
+
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode vCode
+        versionName vName
 
     }
 
@@ -26,3 +28,12 @@ dependencies {
 
     implementation 'com.android.support:appcompat-v7:26.1.0'
 }
+
+ext {
+    publishArtifact = 'android-lifecycle'
+    publishVersion = vName // 发布到Jcenter的版本号
+    publishDesc = '帮助Android生命周期辅助管理'
+    publishWebsite = 'https://github.com/a-liYa/Lifecycle'
+}
+
+apply from: "${rootDir}/publish.gradle"
