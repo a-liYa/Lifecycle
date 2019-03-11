@@ -1,4 +1,4 @@
-package com.aliya.lifecycle.simple.fragment;
+package com.aliya.lifecycle.sample.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.aliya.lifecycle.FragmentLifecycleCallbacks;
 import com.aliya.lifecycle.LifecycleHelper;
 import com.aliya.lifecycle.LifecycleInjector;
-import com.aliya.lifecycle.simple.R;
+import com.aliya.lifecycle.sample.R;
 
 /**
  * Mine Fragment

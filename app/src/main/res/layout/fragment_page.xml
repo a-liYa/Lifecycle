@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aliya.lifecycle.simple.fragment.PageFragment">
+    tools:context="com.aliya.lifecycle.sample.fragment.PageFragment">
 
     <TextView
         android:id="@+id/text_view"

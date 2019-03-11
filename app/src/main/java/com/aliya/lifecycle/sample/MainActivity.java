@@ -1,4 +1,4 @@
-package com.aliya.lifecycle.simple;
+package com.aliya.lifecycle.sample;
 
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.aliya.lifecycle.ActivityLifecycleCallbacks;
 import com.aliya.lifecycle.LifecycleInjector;
-import com.aliya.lifecycle.simple.widget.MainTabLayout;
+import com.aliya.lifecycle.sample.widget.MainTabLayout;
 
 public class MainActivity extends AppCompatActivity {
 

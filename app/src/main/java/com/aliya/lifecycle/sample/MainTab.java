@@ -1,11 +1,11 @@
-package com.aliya.lifecycle.simple;
+package com.aliya.lifecycle.sample;
 
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 
-import com.aliya.lifecycle.simple.fragment.HomeFragment;
-import com.aliya.lifecycle.simple.fragment.MineFragment;
-import com.aliya.lifecycle.simple.fragment.VideoFragment;
+import com.aliya.lifecycle.sample.fragment.HomeFragment;
+import com.aliya.lifecycle.sample.fragment.MineFragment;
+import com.aliya.lifecycle.sample.fragment.VideoFragment;
 
 /**
  * 主界面 Tab 枚举

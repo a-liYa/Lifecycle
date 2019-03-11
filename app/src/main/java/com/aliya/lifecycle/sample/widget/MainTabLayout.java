@@ -1,4 +1,4 @@
-package com.aliya.lifecycle.simple.widget;
+package com.aliya.lifecycle.sample.widget;
 
 import android.content.Context;
 import android.os.Bundle;

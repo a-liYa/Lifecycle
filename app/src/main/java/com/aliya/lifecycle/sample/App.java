@@ -1,4 +1,4 @@
-package com.aliya.lifecycle.simple;
+package com.aliya.lifecycle.sample;
 
 import android.app.Application;
 

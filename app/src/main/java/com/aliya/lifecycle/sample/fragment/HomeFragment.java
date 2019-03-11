@@ -1,4 +1,4 @@
-package com.aliya.lifecycle.simple.fragment;
+package com.aliya.lifecycle.sample.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aliya.lifecycle.simple.R;
+import com.aliya.lifecycle.sample.R;
 
 /**
  * Home Fragment
